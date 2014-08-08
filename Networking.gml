@@ -109,31 +109,21 @@ object_event_add(PlayerControl, ev_step, ev_step_end, '
                 receiveBuffer = PluginPacketGetBuffer(quote_spur.packetID);
                 player = ds_list_find_value(global.players, read_ubyte(receiveBuffer));
                 stringlength=read_ubyte(receiveBuffer);
-                md5String=md5(read_string(receiveBuffer,stringlength));
-                    if md5String="3d6a3a01affac80c9d229ecc08b239be"
-                        || md5String = "2ae62751a195474004d84eda91b21450"
-                        || md5String = "d5c3fc57c92db83d021d30da5e486499"
-                        || md5String = "3e49c21f2320ffae010dfedec0a2d033"
-                        || md5String = "320ded5bb3f5e6110c06bc485edd0c31"
-                        || md5String = "799b98fbcf93b191861e9e938cb3b0e0"
-                        || md5String = "084c941223f0d73411e85887ee159e57"
-                        || md5String = "17c03fdb13b2b592de55f4f65b162c06"
-                        || md5String = "f5e5479492589c70c02a17ddaa943368"
-                        || md5String = "862f57b039f6aaa36c31ecea5ad8590b"
-                        || md5String = "2a3112b71fe2d6ac8e7e4abdf8a6ec13"
-                            {
-                                player.hasAGoldenSpur=true
-                                with NoticeO instance_destroy();
-                                notice = instance_create(0, 0, NoticeO);
-                                notice.notice = NOTICE_CUSTOM;
-                                notice.message = "A Golden Spur holder has joined the server!";
-                                
-                            }else{
-                                player.hasAGoldenSpur=false
-                                if global.isHost && player=global.myself && global.hostGoldenSpur=true{
-                                player.hasAGoldenSpur=true
-                                }
-                            }
+                if (ds_list_find_index(quote_spur.keys, md5(read_string(receiveBuffer,stringlength))) != -1)
+                {
+                    player.hasAGoldenSpur=true
+                    with NoticeO instance_destroy();
+                    notice = instance_create(0, 0, NoticeO);
+                    notice.notice = NOTICE_CUSTOM;
+                    notice.message = "A Golden Spur holder has joined the server!";
+                    
+                }
+                else
+                {
+                    player.hasAGoldenSpur=false
+                    if global.isHost and player=global.myself and global.hostGoldenSpur=true
+                        player.hasAGoldenSpur=true
+                }
         break;
         }
         PluginPacketPop(quote_spur.packetID);

@@ -45,15 +45,12 @@ if (!global.mapchanging) {
     }
 }")
 
-object_event_clear(Quote,ev_create,0)
+// cmon bass, stepitup
+object_event_add(Quote,ev_create,0,"
+    with(currentWeapon) {instance_destroy();}
+    currentWeapon = instance_create(x,y,quote_spur.Spur);
+");
 
-object_event_add(Quote,ev_create,0,"
-maxHp = 140;
-runPower = 1.07;
-weapons[0] = quote_spur.Spur;
-tauntsprite = QuoteTauntS;")
-object_event_add(Quote,ev_create,0,"
-event_inherited()")
 //Gives querly the spur
 
 //////////////SPUR WEAPON OBJECT//////////////////////////
